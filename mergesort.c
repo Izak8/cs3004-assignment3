@@ -40,14 +40,14 @@ void merge(int leftstart, int leftend, int rightstart, int rightend) {
 		sub-array will have elements remaining at most)
 	*/
 
-	int num_elements_to_copy_in_total	= (rightend - leftstart) + 1;
-	int num_elements_to_copy_from_left 	= (leftend - leftindex) + 1;
-	int num_elements_to_copy_from_right = (rightend - rightindex) + 1;
+	int num_bytes_to_copy_in_total		= ((rightend - leftstart) + 1) * sizeof(int);
+	int num_bytes_to_copy_from_left 	= ((leftend - leftindex) + 1) * sizeof(int);
+	int num_bytes_to_copy_from_right 	= ((rightend - rightindex) + 1) * sizeof(int);
 	
-	memcpy(&B[index], &A[leftindex], num_elements_to_copy_from_left);
-	memcpy(&B[index], &A[rightindex], num_elements_to_copy_from_right);
+	memcpy(&B[index], &A[leftindex], num_bytes_to_copy_from_left);
+	memcpy(&B[index], &A[rightindex], num_bytes_to_copy_from_right);
 	/* copy auxiliary array B, which is now sorted, back to A */
-	memcpy(&A[leftstart], &B[leftstart], num_elements_to_copy_in_total);
+	memcpy(&A[leftstart], &B[leftstart], num_bytes_to_copy_in_total);
 }
 
 /* this function will be called by parallel_mergesort() as its base case. */
