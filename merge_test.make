@@ -17,8 +17,8 @@ CFLAGS	= -Wall -Wpointer-arith -Wstrict-prototypes -std=c11 -fPIC
 DB		= echo $(LDFLAGS) $(CFLAGS) | tr ' ' '\n' > compile_flags.txt
 
 # Project Files
-BIN=test-mergesort
-OBJ=test-mergesort.o mergesort.o
+BIN=merge_test.test
+OBJ=merge_test.o mergesort.o
 SRC=$(OBJ:%.o=%.c)
 DEP=$(OBJ:%.o=%.d)
 
@@ -37,10 +37,6 @@ $(BIN): $(OBJ)
 .c.d:
 	$(CC) -MM $< -o $@
 
-# Unit tests
-test:
-	make -f merge_test.make
-
 # Generate LSP database on each clean
 db:
 	$(DB)
@@ -49,8 +45,6 @@ clean: db
 	rm -fr $(BIN)
 	rm -fr $(OBJ)
 	rm -fr $(DEP)
-
-	make -f merge_test.make clean
 	
 # For FreeBSD make use -include
 -include $(DEP)
