@@ -19,7 +19,6 @@ void merge(int leftstart, int leftend, int rightstart, int rightend) {
 		of lesser value until either position is out of bounds
 	*/
 
-
 	for(; (leftindex <= leftend) && (rightindex <= rightend); index++) {
 		/* choose left element from B if smaller */
 		if(A[leftindex] <= A[rightindex]) {
@@ -32,19 +31,6 @@ void merge(int leftstart, int leftend, int rightstart, int rightend) {
 		}
 	}
 
-	/* copy the remainder from whichever side still has elements */
-    if (leftindex <= leftend) {
-		/* Left run has leftovers: copy them in one bulk transfer. */
-        size_t n = (size_t)(leftend - leftindex + 1);
-        memcpy(&B[index], &A[leftindex], n * sizeof(int));
-        index += (int)n;
-    } else if (rightindex <= rightend) {
-		/* Right run has leftovers: copy them in one bulk transfer. */
-        size_t n = (size_t)(rightend - rightindex + 1);
-        memcpy(&B[index], &A[rightindex], n * sizeof(int));
-        index += (int)n;
-    }
-
 	/* 	loop terminates once either sub-array is out of bounds
 
 		as such, remaining elements in either sub-array must be
@@ -54,14 +40,26 @@ void merge(int leftstart, int leftend, int rightstart, int rightend) {
 		sub-array will have elements remaining at most)
 	*/
 
-	/* One bulk copy back into A. */ /* copy auxiliary array B, which is now sorted, back to A */
-    size_t total = (size_t)(rightend - leftstart + 1);
-    memcpy(&A[leftstart], &B[leftstart], total * sizeof(int));
+	int num_bytes_to_copy_in_total		= ((rightend - leftstart) + 1) * sizeof(int);
+	int num_bytes_to_copy_from_left 	= ((leftend - leftindex) + 1) * sizeof(int);
+	int num_bytes_to_copy_from_right 	= ((rightend - rightindex) + 1) * sizeof(int);
+	
+	memcpy(&B[index], &A[leftindex], num_bytes_to_copy_from_left);
+	memcpy(&B[index], &A[rightindex], num_bytes_to_copy_from_right);
+	/* copy auxiliary array B, which is now sorted, back to A */
+	memcpy(&A[leftstart], &B[leftstart], num_bytes_to_copy_in_total);
 }
 
 /* this function will be called by parallel_mergesort() as its base case. */
 void my_mergesort(int left, int right) {
+	if (left >= right ) return; /* base case: array of size 0 or 1 is already sorted */
 
+	int mid = left + (right - left) / 2; // Split the range roughly in half
+
+	my_mergesort(left, mid);       /* sort the left half*/
+	my_mergesort(mid + 1, right);  /* sort the right half*/
+
+	merge(left, mid, mid + 1, right); /* merge the two sorted halves */
 }
 
 /* this function will be called by the testing program. */
