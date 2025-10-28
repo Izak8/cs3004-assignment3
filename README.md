@@ -20,6 +20,7 @@ README.md 		 -- this file!
 mergesort.c 	 -- contains the source for the functions which need to be implemented.
 mergesort.h 	 -- contains the declarations for the functions and structs used.
 test-mergesort.c -- contains the source for the program which runs the algorithm.
+merge_test.make  -- tiny makefile to build the merge unit test
 
 ## Building the project
 
@@ -28,6 +29,8 @@ system which features some rendition of the `make` utility. In fact, any system 
 POSIX-compliant shall be able to execute and run this makefile.
 
 From this point execute the built executable `./test-mergesort` and provide relevant arguments.
+
+macOS note: If you see a build error about <error.h>, we’ve already removed that include for macOS compatibility in this branch. If you pull a branch that still includes it, delete the line in test-mergesort.c.
 
 ## Features and usage
 
@@ -38,6 +41,11 @@ array, `level` refers to the number of times the array is partitioned and sorted
 TODO: write more perhaps?
 
 ## Testing
+Unit tests for merge()
+Balanced halves, unbalanced halves, left/right remainder cases, duplicates, already sorted, reverse-sorted, tiny segments (size 0/1).
+
+Integration check (temporary)
+While parallel_mergesort is incomplete, we verify my_mergesort correctness by temporarily routing parallel_mergesort to call my_mergesort (serial path) and checking the harness output. (In this branch, parallel_mergesort is intentionally a stub.)
 
 This section should detail how you tested your code. Simply stating "I ran
 it a few times and it seems to work" is not sufficient. Your testing needs
@@ -53,6 +61,8 @@ List known bugs that you weren't able to fix (or ran out of time to fix).
 TODO: haven't made any bugs yet ...
 
 ## Reflection and Self Assessment
+Early failure we hit: Harness printed “sorting failed!!!!” because it always calls parallel_mergesort() and ours was a stub.
+What we learned: keep a unit test for merge() separate from threading so we can validate core correctness early.
 
 Discuss the issues you encountered during development and testing. What
 problems did you have? What did you have to research and learn on your own?
@@ -66,6 +76,11 @@ did the development and testing process go for you?
 TODO: haven't finished yet ...
 
 ## Sources Used
+Operating Systems: Three Easy Pieces — chapters on concurrency for general pthread patterns.
+Assignment 3 specification and starter code (University of Adelaide, COMP SCI 3004–7064).
+Assistance with structuring tests and clarifying merge-edge cases provided by AI (ChatGPT).
+https://www.youtube.com/watch?v=b1n9T-Iy3SA 
+https://stackoverflow.com/questions/2550774/what-is-size-t-in-c
 
 If you used any sources outside of the textbook, you should list them here. 
 If you looked something up on stackoverflow.com or you use help from AI, and 
