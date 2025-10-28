@@ -18,7 +18,7 @@ DB		= echo $(LDFLAGS) $(CFLAGS) | tr ' ' '\n' > compile_flags.txt
 
 # Project Files
 BIN=test-mergesort
-OBJ=test-mergesort.o mergesort.o
+OBJ=test-mergesort.o mergesort.o 
 SRC=$(OBJ:%.o=%.c)
 DEP=$(OBJ:%.o=%.d)
 
@@ -38,8 +38,9 @@ $(BIN): $(OBJ)
 	$(CC) -MM $< -o $@
 
 # Unit tests
-test:
-	make -f merge_test.make
+test: mergesort.o merge_test.o buildargs_test.o
+	$(CC) $(CFLAGS) -o merge.test merge_test.o mergesort.o
+	$(CC) $(CFLAGS) -o buildargs.test buildargs_test.o mergesort.o
 
 # Generate LSP database on each clean
 db:
@@ -49,8 +50,6 @@ clean: db
 	rm -fr $(BIN)
 	rm -fr $(OBJ)
 	rm -fr $(DEP)
-
-	make -f merge_test.make clean
 	
 # For FreeBSD make use -include
 -include $(DEP)
