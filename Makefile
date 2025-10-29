@@ -6,7 +6,7 @@
 # surely gradescope machines have a compiler which can do post Y2K C ....
 
 CC		= cc
-CFLAGS	= -Wall -Wpointer-arith -Wstrict-prototypes -std=c11 -fPIC
+CFLAGS	= -Wall -Wpointer-arith -Wstrict-prototypes -std=gnu89 -fPIC
 
 # Pathname of the pkg-config compatible utility
 # (not using this for this assignment at all)
