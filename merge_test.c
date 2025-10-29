@@ -8,6 +8,8 @@
 int* A;
 int* B;
 
+int cutoff;
+
 void printA(size_t start, size_t end) {
 	printf("\nA ");
 	for(size_t i = start; i < end+1; i++) {
