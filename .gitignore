@@ -54,5 +54,8 @@ dkms.conf
 # debug information files
 *.dwo
 
-# LSP files
+# Project-specific
+
 compile_flags.txt
+*.test
+test-mergesort
