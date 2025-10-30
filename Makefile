@@ -6,7 +6,7 @@
 # surely gradescope machines have a compiler which can do post Y2K C ....
 
 CC		= cc
-CFLAGS	= -Wall -Wpointer-arith -Wstrict-prototypes -std=gnu89 -fPIC
+CFLAGS	= -Wall -Wpointer-arith -Wstrict-prototypes -std=gnu11 -fPIC
 
 # Pathname of the pkg-config compatible utility
 # (not using this for this assignment at all)
@@ -28,7 +28,7 @@ all: $(BIN)
 $(BIN): $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LDFLAGS)
 
-# Suffix rules to create .o and .d files from sources
+# Implicit suffix rules to create .o and .d files from sources
 .SUFFIXES: .c .o
 .c.o:
 	$(CC) $(CFLAGS) $(INC) -c $<
@@ -37,10 +37,23 @@ $(BIN): $(OBJ)
 .c.d:
 	$(CC) -MM $< -o $@
 
-# Unit tests
-test: mergesort.o merge_test.o buildargs_test.o
-	$(CC) $(CFLAGS) -o merge.test merge_test.o mergesort.o
-	$(CC) $(CFLAGS) -o buildargs.test buildargs_test.o mergesort.o
+# Unit tests -- lets anticipate all the unit tests
+tests: mergesort.o merge.o buildargs.o my_mergesort.o parallel_mergesort.o
+
+	$(CC) $(CFLAGS) -o merge.test 				merge.o mergesort.o
+	$(CC) $(CFLAGS) -o buildargs.test 			buildargs.o mergesort.o
+	$(CC) $(CFLAGS) -o my_mergesort.test 		my_mergesort.o mergesort.o
+	$(CC) $(CFLAGS) -o parallel_mergesort.test	parallel_mergesort.o mergesort.o
+
+# Explicit test source recipes
+merge.o: tests/merge.c
+	$(CC) $(CFLAGS) -c $< -o merge.o
+buildargs.o: tests/buildargs.c
+	$(CC) $(CFLAGS) -c $< -o buildargs.o
+my_mergesort.o: tests/my_mergesort.c
+	$(CC) $(CFLAGS) -c $< -o my_mergesort.o
+parallel_mergesort.o: tests/parallel_mergesort.c
+	$(CC) $(CFLAGS) -c $< -o parallel_mergesort.o
 
 # Generate LSP database on each clean
 db:
