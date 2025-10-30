@@ -70,22 +70,22 @@ void * parallel_mergesort(void *arg){
 
 	/* base case: level == 0 */
 	/* base case: array has one element left */
-	if (argument->level == 0) {
+	if (argument->level >= cutoff || argument->left >= argument->right) {
 		my_mergesort(argument->left, argument->right);
 	}
 	else {
-	    if (argument->left >= argument->right) { return NULL; }
-		struct argument* args1 = buildArgs(argument->left, mid, argument->level-1);
-		struct argument* args2 = buildArgs(mid+1, argument->right, argument->level-1);
+	   // if () { return NULL; }
+		struct argument* args1 = buildArgs(argument->left, mid, argument->level+1);
+		struct argument* args2 = buildArgs(mid+1, argument->right, argument->level+1);
 
-		pthread_t *p_mergesort1;
-		pthread_t *p_mergesort2;
+		pthread_t p_mergesort1;
+		pthread_t p_mergesort2;
 
-		pthread_create(p_mergesort1, NULL, parallel_mergesort, args1);
-		pthread_create(p_mergesort2, NULL, parallel_mergesort, args2);
+		pthread_create(&p_mergesort1, NULL, parallel_mergesort, args1);
+		pthread_create(&p_mergesort2, NULL, parallel_mergesort, args2);
 
-		pthread_join(*p_mergesort1, NULL);
-		pthread_join(*p_mergesort2, NULL);
+		pthread_join(p_mergesort1, NULL);
+		pthread_join(p_mergesort2, NULL);
 
 		merge(argument->left, mid, mid+1, argument->right);
 	}
