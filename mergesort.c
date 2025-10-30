@@ -74,8 +74,8 @@ void * parallel_mergesort(void *arg){
 		pthread_t *p_mergesort1;
 		pthread_t *p_mergesort2;
 
-		pthread_create(p_mergesort1, NULL, parallel_mergesort, argument);
-		pthread_create(p_mergesort2, NULL, parallel_mergesort, argument);
+		pthread_create(p_mergesort1, NULL, parallel_mergesort, args1);
+		pthread_create(p_mergesort2, NULL, parallel_mergesort, args2);
 
 		pthread_join(*p_mergesort1, NULL);
 		pthread_join(*p_mergesort2, NULL);
