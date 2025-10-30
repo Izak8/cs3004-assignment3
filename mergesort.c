@@ -63,9 +63,11 @@ void * parallel_mergesort(void *arg){
 
 	/* base case: level == 0 */
 	/* base case: array has one element left */
-	if (argument->level == 0 || argument->right == 0) {
+	if (argument->level == 0) {
 		my_mergesort(argument->left, argument->right);
-	} else {
+	}
+	else {
+	    if (argument->left >= argument->right) { return NULL; }
 		struct argument *args1 = buildArgs(argument->left, mid, argument->level-1);
 		struct argument *args2 = buildArgs(mid+1, argument->right, argument->level-1);
 
