@@ -56,8 +56,31 @@ void my_mergesort(int left, int right) {
 }
 
 /* this function will be called by the testing program. */
-void * parallel_mergesort(void* arg) {
-		return NULL;
+void * parallel_mergesort(void *arg){
+	struct argument *argument = arg;
+	/* mid variable retreives the approximate middle index of the array */
+	int mid = argument->left + (argument->right-argument->left) / 2;
+
+	/* base case: level == 0 */
+	/* base case: array has one element left */
+	if (argument->level == 0 || argument->right == 0) {
+		my_mergesort(argument->left, argument->right);
+	} else {
+		struct argument *args1 = buildArgs(argument->left, mid, argument->level-1);
+		struct argument *args2 = buildArgs(mid+1, argument->right, argument->level-1);
+
+		pthread_t *p_mergesort1;
+		pthread_t *p_mergesort2;
+
+		pthread_create(p_mergesort1, NULL, parallel_mergesort, argument);
+		pthread_create(p_mergesort2, NULL, parallel_mergesort, argument);
+
+		pthread_join(*p_mergesort1, NULL);
+		pthread_join(*p_mergesort2, NULL);
+
+		merge(argument->left, mid, mid+1, argument->right);
+	}
+	return NULL;
 }
 
 /* we build the argument for the parallel_mergesort function. */
