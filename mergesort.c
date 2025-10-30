@@ -68,8 +68,8 @@ void * parallel_mergesort(void *arg){
 	}
 	else {
 	    if (argument->left >= argument->right) { return NULL; }
-		struct argument *args1 = buildArgs(argument->left, mid, argument->level-1);
-		struct argument *args2 = buildArgs(mid+1, argument->right, argument->level-1);
+		struct argument* args1 = buildArgs(argument->left, mid, argument->level-1);
+		struct argument* args2 = buildArgs(mid+1, argument->right, argument->level-1);
 
 		pthread_t *p_mergesort1;
 		pthread_t *p_mergesort2;
