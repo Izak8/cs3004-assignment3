@@ -81,8 +81,8 @@ int main(void) {
 		struct argument* args = buildArgs(0,9,0);
 		parallel_mergesort(args);
 
-		printA(0,9);
-		printB(0, 9);
+		printA(0,8);
+		printB(0,8);
 
 		assert(A[0] == 1);
 		assert(A[1] == 2);
