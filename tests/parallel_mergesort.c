@@ -78,7 +78,8 @@ int main(void) {
 		A[7] = 8; // 7
 		A[6] = 9; // 8
 
-		struct argument* args = buildArgs(0,9,0);
+		printA(0,8);
+		printB(0,8);
 		parallel_mergesort(args);
 
 		printA(0,8);
