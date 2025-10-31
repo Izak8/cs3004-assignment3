@@ -94,4 +94,72 @@ int main(void) {
 
 		printf("Test 2: Passed\n");
 	}
+
+	{
+		printf("Test 3: merge two sorted sub-arrays which are sorted as a whole\n");
+		A = malloc(10 * sizeof(int));
+		B = malloc(10 * sizeof(int));
+
+		A[0] = 1; 
+		A[1] = 2;
+		A[2] = 3;
+		A[3] = 4;
+		A[4] = 5; 
+	
+		A[5] = 6;	/* leftstart = 5 */
+		A[6] = 7;	/* leftend = 6 */
+		A[7] = 8;	/* rightstart = 7 */
+		A[8] = 9;
+		A[9] = 10;	/* rightend = 9 */
+
+		/* expected result is A=[2,3,4,10,11] */
+		merge(0,4,5,9);
+
+		assert(A[0] == 1);
+		assert(A[1] == 2);
+		assert(A[2] == 3);
+		assert(A[3] == 4);
+		assert(A[4] == 5);
+		assert(A[5] == 6);
+		assert(A[6] == 7);
+		assert(A[7] == 8);
+		assert(A[8] == 9);
+		assert(A[9] == 10);
+
+		printf("Test 3: Passed\n");	
+	}
+
+		{
+		printf("Test 4: merge two identical arrays\n");
+		A = malloc(10 * sizeof(int));
+		B = malloc(10 * sizeof(int));
+
+		A[0] = 1; 
+		A[1] = 2;
+		A[2] = 3;
+		A[3] = 4;
+		A[4] = 5; 
+	
+		A[5] = 1;	/* leftstart = 5 */
+		A[6] = 2;	/* leftend = 6 */
+		A[7] = 3;	/* rightstart = 7 */
+		A[8] = 4;
+		A[9] = 5;	/* rightend = 9 */
+
+		/* expected result is A=[2,3,4,10,11] */
+		merge(0,4,5,9);
+
+		assert(A[0] == 1);
+		assert(A[1] == 1);
+		assert(A[2] == 2);
+		assert(A[3] == 2);
+		assert(A[4] == 3);
+		assert(A[5] == 3);
+		assert(A[6] == 4);
+		assert(A[7] == 4);
+		assert(A[8] == 5);
+		assert(A[9] == 5);
+
+		printf("Test 4: Passed\n");	
+	}
 }
